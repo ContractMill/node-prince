@@ -38,7 +38,6 @@ var path          = require("path");
 var util          = require("util");
 
 /*  extra requirements  */
-var promise       = require("promise");
 var _             = require("lodash");
 
 /*  the officially support options of prince(1)  */
@@ -295,7 +294,7 @@ Prince.prototype._execute = function (method, args) {
 
     /*  return promise for executing CLI  */
     var self = this;
-    return new promise(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
         try {
             var options = {};
             options.timeout   = self.config.timeout;

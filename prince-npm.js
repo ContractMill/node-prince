@@ -40,7 +40,6 @@ var zlib          = require("zlib");
 
 /*  extra requirements  */
 var progress      = require("progress");
-var promise       = require("promise");
 var request       = require("request");
 var which         = require("which");
 var chalk         = require("chalk");
@@ -50,7 +49,7 @@ var mkdirp        = require("mkdirp");
 
 /*  determine path and version of prince(1)  */
 var princeInfo = function () {
-    return new promise(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
         which("prince", function (error, filename) {
             if (error) {
                 reject("prince(1) not found in PATH: " + error);
@@ -74,7 +73,7 @@ var princeInfo = function () {
 
 /*  return download URL for latest PrinceXML distribution  */
 var princeDownloadURL = function () {
-    return new promise(function (resolve /*, reject */) {
+    return new Promise(function (resolve /*, reject */) {
         var id = process.arch + "-" + process.platform;
         if (id.match(/^ia32-win32$/))
             resolve("https://www.princexml.com/download/prince-13.6-win32-setup.exe");
@@ -136,7 +135,7 @@ var princeDownloadURL = function () {
 
 /*  download data from URL  */
 var downloadData = function (url) {
-    return new promise(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
         var options = {
             method: "GET",
             url: url,
@@ -145,7 +144,7 @@ var downloadData = function (url) {
                 "User-Agent": "node-prince (prince-npm.js:install)"
             }
         };
-        (new promise(function (resolve /*, reject  */) {
+        (new Promise(function (resolve /*, reject  */) {
             if (typeof process.env.http_proxy === "string" && process.env.http_proxy !== "") {
                 options.proxy = process.env.http_proxy;
                 console.log("-- using proxy ($http_proxy): " + options.proxy);
@@ -194,7 +193,7 @@ var downloadData = function (url) {
 
 /*  extract a tarball (*.tar.gz)  */
 var extractTarball = function (tarball, destdir, stripdirs) {
-    return new promise(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
         fs.createReadStream(tarball)
             .pipe(zlib.createGunzip())
             .pipe(tar.extract({ cwd: destdir, strip: stripdirs }))
