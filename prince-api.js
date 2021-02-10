@@ -38,7 +38,6 @@ var path          = require("path");
 var util          = require("util");
 
 /*  extra requirements  */
-var _             = require("lodash");
 
 /*  the officially support options of prince(1)  */
 var princeOptions = {
@@ -331,11 +330,15 @@ Prince.prototype.execute = function () {
         args.push("--license-file");
         args.push(this.config.license);
     }
-    _.forOwn(this.config.option, function (value, name) {
-        args.push("--" + name);
-        if (value !== true)
-            args.push(value);
+
+    Object.entries(this.config.option).forEach(([name, value]) => {
+      args.push("--" + name);
+      
+      if (value !== true) {
+        args.push(value);
+      }
     });
+
     this.config.inputs.forEach(function (input) {
         args.push(input);
     });
