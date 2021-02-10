@@ -15,6 +15,7 @@
       "email": "alex@contractmill.com"
     }
   ],
+  "private": false,
   "keywords": [
     "Prince",
     "PrinceXML",
