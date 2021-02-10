@@ -1,5 +1,5 @@
 
-Node-Prince
+Node-Prince (fork)
 ===========
 
 [Node](http://nodejs.org/) API for executing the XML/HTML to PDF renderer
