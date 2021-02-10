@@ -4,3 +4,9 @@
 prince
 test.pdf
 fontconfig
+
+prince.*
+
+.vscode
+.history
+.DS_Store
