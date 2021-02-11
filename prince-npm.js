@@ -51,7 +51,7 @@ const unzip = require("unzip-stream");
 const PRINCE_VERSION = 14;
 
 /*  determine path and version of prince(1)  */
-let princeInfo = function () {
+const princeInfo = function () {
   return new Promise(function (resolve, reject) {
     which("prince", function (error, filename) {
       if (error) {
@@ -99,6 +99,7 @@ async function getLinuxOSInfo() {
 const princeDownloadURL = function () {
   return new Promise(async function (resolve /*, reject */) {
     const platform = process.platform
+    console.log(`+++ Platform: ${platform}`)
 
     switch(platform) {
       // Windows
@@ -128,6 +129,7 @@ const princeDownloadURL = function () {
       // Linux
       case "linux": {
         const {osCPUArch, osName, osVersion} = await getLinuxOSInfo()
+        console.log(`+++ OS CPU arch: ${osCPUArch},\n+++ OS name: ${osName},\n+++ OS version: ${osVersion}`)
 
         switch(osName) {
           // Ubuntu
@@ -181,84 +183,111 @@ const princeDownloadURL = function () {
             }
             break;
           }
-        }
-        break;
-      }
-      
-      // Debian
-      case 'debian': {
-        switch(osCPUArch) {
-          case 'amd64': {
-            // Debian 10
-            if(/^10(?:\.\d+)*$/.test(osVersion)) {
-              resolve(`https://www.princexml.com/download/prince-${PRINCE_VERSION}-debian10-amd64.tar.gz`);
-            }
-            // Debian 9
-            else if(/^9(?:\.\d+)*$/.test(osVersion)) {
-              resolve(`https://www.princexml.com/download/prince-${PRINCE_VERSION}-debian9-amd64.tar.gz`);
-            }
-            // Debian 8
-            else if(/^8(?:\.\d+)*$/.test(osVersion)) {
-              resolve(`https://www.princexml.com/download/prince-${PRINCE_VERSION}-debian8-amd64.tar.gz`);
-            }
-            else {
-              throw new Error(`Unknown os version: ${osVersion}`)
-            }
-          } 
-          default: {
-            throw new Error(`Unsupported architecture: "${osCPUArch}"`)
-          }
-        }
-        break;
-      }
 
-      // CentOS
-      case 'centos': {
-        switch(osCPUArch) {
-          case 'amd64': {
-            // CentOS 8
-            if(/^8(?:\.\d+)*$/.test(osVersion)) {
-              resolve(`https://www.princexml.com/download/prince-${PRINCE_VERSION}-centos8-x86_64.tar.gz`);
-            }
-            // CentOS 7
-            else if(/^7(?:\.\d+)*$/.test(osVersion)) {
-              resolve(`https://www.princexml.com/download/prince-${PRINCE_VERSION}-centos7-x86_64.tar.gz`);
-            }
-            // CentOS 6
-            else if(/^6(?:\.\d+)*$/.test(osVersion)) {
-              resolve(`https://www.princexml.com/download/prince-${PRINCE_VERSION}-centos6-x86_64.tar.gz`);
-            }
-            else {
-              throw new Error(`Unknown os version: ${osVersion}`)
-            }
-          } 
-          default: {
-            throw new Error(`Unsupported architecture: "${osCPUArch}"`)
-          }
-        }
-        break;
-      }
+          // Debian
+          case 'debian': {
+            switch(osCPUArch) {
+              case 'amd64': {
+                // Debian 10
+                if(/^10(?:\.\d+)*$/.test(osVersion)) {
+                  resolve(`https://www.princexml.com/download/prince-${PRINCE_VERSION}-debian10-amd64.tar.gz`);
+                }
+                // Debian 9
+                else if(/^9(?:\.\d+)*$/.test(osVersion)) {
+                  resolve(`https://www.princexml.com/download/prince-${PRINCE_VERSION}-debian9-amd64.tar.gz`);
+                }
+                // Debian 8
+                else if(/^8(?:\.\d+)*$/.test(osVersion)) {
+                  resolve(`https://www.princexml.com/download/prince-${PRINCE_VERSION}-debian8-amd64.tar.gz`);
+                }
+                else {
+                  throw new Error(`Unknown os version: ${osVersion}`)
+                }
 
-      // Alpine
-      case 'alpine': {
-        switch(osCPUArch) {
+                break;
+              } 
+              default: {
+                throw new Error(`Unsupported architecture: "${osCPUArch}"`)
+              }
+            }
+            break;
+          }
+
+          // CentOS
+          case 'centos': {
+            switch(osCPUArch) {
+              case 'amd64': {
+                // CentOS 8
+                if(/^8(?:\.\d+)*$/.test(osVersion)) {
+                  resolve(`https://www.princexml.com/download/prince-${PRINCE_VERSION}-centos8-x86_64.tar.gz`);
+                }
+                // CentOS 7
+                else if(/^7(?:\.\d+)*$/.test(osVersion)) {
+                  resolve(`https://www.princexml.com/download/prince-${PRINCE_VERSION}-centos7-x86_64.tar.gz`);
+                }
+                // CentOS 6
+                else if(/^6(?:\.\d+)*$/.test(osVersion)) {
+                  resolve(`https://www.princexml.com/download/prince-${PRINCE_VERSION}-centos6-x86_64.tar.gz`);
+                }
+                else {
+                  throw new Error(`Unknown os version: ${osVersion}`)
+                }
+
+                break;
+              } 
+              default: {
+                throw new Error(`Unsupported architecture: "${osCPUArch}"`)
+              }
+            }
+            break;
+          }
+
+          // Alpine
+          case 'alpine': {
+            switch(osCPUArch) {
+              case 'amd64': {
+                // Alpine 3.13
+                if(/^3.13(?:\.\d+)*$/.test(osVersion)) {
+                  resolve(`https://www.princexml.com/download/prince-${PRINCE_VERSION}-alpine3.13-x86_64.tar.gz`);
+                }
+                // Alpine 3.12
+                else if(/^3.12(?:\.\d+)*$/.test(osVersion)) {
+                  resolve(`https://www.princexml.com/download/prince-${PRINCE_VERSION}-alpine3.12-x86_64.tar.gz`);
+                }
+                // Alpine 3.11
+                else if(/^3.11(?:\.\d+)*$/.test(osVersion)) {
+                  resolve(`https://www.princexml.com/download/prince-${PRINCE_VERSION}-alpine3.11-x86_64.tar.gz`);
+                }
+                // Alpine 3.10
+                else if(/^3.10(?:\.\d+)*$/.test(osVersion)) {
+                  resolve(`https://www.princexml.com/download/prince-${PRINCE_VERSION}-alpine3.10-x86_64.tar.gz`);
+                }
+                else {
+                  throw new Error(`Unknown os version: ${osVersion}`)
+                }
+                break;
+              }
+              default: {
+                throw new Error(`Unsupported architecture: "${osCPUArch}"`)
+              }
+            }
+            break;
+          }
+          
           default: {
-            throw new Error(`Unsupported architecture: "${osCPUArch}"`)
+            throw new Error(`Unsupported platform: "${platform}"`)
           }
         }
         break;
-      }
-      default: {
-        throw new Error(`Unsupported platform: "${platform}"`)
       }
     }
   });
 };
 
 /*  download data from URL  */
-let downloadData = function (url) {
+const downloadData = function (url) {
   return new Promise(function (resolve, reject) {
-    let options = {
+    const options = {
       method: "GET",
       url: url,
       encoding: null,
@@ -266,6 +295,7 @@ let downloadData = function (url) {
         "User-Agent": "node-prince (prince-npm.js:install)",
       },
     };
+
     new Promise(function (resolve /*, reject  */) {
       if (
         typeof process.env.http_proxy === "string" &&
@@ -440,134 +470,135 @@ async function install() {
     },
     function (/* error */) {
       console.log("++ downloading PrinceXML distribution");
-      princeDownloadURL().then(function (url) {
-        downloadData(url).then(
-          async function (data) {
-            console.log("++ locally unpacking PrinceXML distribution");
-            destdir = path.join(__dirname, "prince");
+      princeDownloadURL()
+        .then(function (url) {
+          downloadData(url).then(
+            async function (data) {
+              console.log("++ locally unpacking PrinceXML distribution");
+              destdir = path.join(__dirname, "prince");
 
-            let destfile;
+              let destfile;
 
-            switch (process.platform) {
-              case "win32": {
-                destfile = path.join(__dirname, "prince.exe");
+              switch (process.platform) {
+                case "win32": {
+                  destfile = path.join(__dirname, "prince.exe");
 
-                fs.writeFileSync(destfile, data, { encoding: null });
-                let args = [
-                  "/s",
-                  "/a",
-                  '/vTARGETDIR="' + path.resolve(destdir) + '" /qn',
-                ];
+                  fs.writeFileSync(destfile, data, { encoding: null });
+                  let args = [
+                    "/s",
+                    "/a",
+                    '/vTARGETDIR="' + path.resolve(destdir) + '" /qn',
+                  ];
 
-                child_process.execFile(
-                  destfile,
-                  args,
-                  function (error, stdout, stderr) {
-                    if (error !== null) {
-                      console.log(
-                        chalk.red("** ERROR: failed to extract: " + error)
+                  child_process.execFile(
+                    destfile,
+                    args,
+                    function (error, stdout, stderr) {
+                      if (error !== null) {
+                        console.log(
+                          chalk.red("** ERROR: failed to extract: " + error)
+                        );
+                        stdout = stdout.toString();
+                        stderr = stderr.toString();
+                        if (stdout !== "") console.log("** STDOUT: " + stdout);
+                        if (stderr !== "") console.log("** STDERR: " + stderr);
+                      } else {
+                        fs.unlinkSync(destfile);
+                        console.log(
+                          "-- OK: local PrinceXML installation now available"
+                        );
+                      }
+                    }
+                  );
+
+                  break;
+                }
+
+                case "darwin": {
+                  let tempDir;
+
+                  try {
+                    // Create a temp directory
+                    tempDir = await createTmpDir(path.join(__dirname, "tmp-"));
+
+                    const archFileName = path.join(tempDir, "prince.zip");
+
+                    await saveFileToDisk(archFileName, data);
+
+                    // Unarchive file
+                    await unzipArchive(archFileName, tempDir);
+
+                    fs.unlinkSync(archFileName);
+
+                    // Get all files and directories in the temp directory
+                    const files = await readDir(tempDir);
+
+                    if (!Array.isArray(files) || files.length === 0) {
+                      throw new Error(
+                        `No files found in the temp directory: ${tempDir}`
                       );
-                      stdout = stdout.toString();
-                      stderr = stderr.toString();
-                      if (stdout !== "") console.log("** STDOUT: " + stdout);
-                      if (stderr !== "") console.log("** STDERR: " + stderr);
-                    } else {
+                    }
+
+                    if (files.length === 1) {
+                      const fName = files[0];
+                      const fileStat = await readFileStat(
+                        path.join(tempDir, fName)
+                      );
+
+                      if (!fileStat.isDirectory()) {
+                        throw new Error(
+                          `Found one file in the temp directory. Expected a directory`
+                        );
+                      }
+
+                      // Move all files and directories from the directory to the target
+                      await moveFiles(path.join(tempDir, fName), destdir);
+
+                      // Make Prince binary executable
+                      await makePrinceExecutable(destdir);
+                    }
+
+                    await removeTmpDir(tempDir);
+                  } catch (error) {
+                    await removeTmpDir(tempDir);
+
+                    throw error;
+                  }
+
+                  break;
+                }
+
+                case "linux": {
+                  destfile = path.join(__dirname, "prince.tgz");
+
+                  fs.writeFileSync(destfile, data, { encoding: null });
+                  mkdirp.sync(destdir);
+
+                  extractTarball(destfile, destdir, 1).then(
+                    function () {
                       fs.unlinkSync(destfile);
                       console.log(
                         "-- OK: local PrinceXML installation now available"
                       );
-                    }
-                  }
-                );
-
-                break;
-              }
-
-              case "darwin": {
-                let tempDir;
-
-                try {
-                  // Create a temp directory
-                  tempDir = await createTmpDir(path.join(__dirname, "tmp-"));
-
-                  const archFileName = path.join(tempDir, "prince.zip");
-
-                  await saveFileToDisk(archFileName, data);
-
-                  // Unarchive file
-                  await unzipArchive(archFileName, tempDir);
-
-                  fs.unlinkSync(archFileName);
-
-                  // Get all files and directories in the temp directory
-                  const files = await readDir(tempDir);
-
-                  if (!Array.isArray(files) || files.length === 0) {
-                    throw new Error(
-                      `No files found in the temp directory: ${tempDir}`
-                    );
-                  }
-
-                  if (files.length === 1) {
-                    const fName = files[0];
-                    const fileStat = await readFileStat(
-                      path.join(tempDir, fName)
-                    );
-
-                    if (!fileStat.isDirectory()) {
-                      throw new Error(
-                        `Found one file in the temp directory. Expected a directory`
+                    },
+                    function (error) {
+                      console.log(
+                        chalk.red("** ERROR: failed to extract: " + error)
                       );
                     }
+                  );
 
-                    // Move all files and directories from the directory to the target
-                    await moveFiles(path.join(tempDir, fName), destdir);
-
-                    // Make Prince binary executable
-                    await makePrinceExecutable(destdir);
-                  }
-
-                  await removeTmpDir(tempDir);
-                } catch (error) {
-                  await removeTmpDir(tempDir);
-
-                  throw error;
+                  break;
                 }
-
-                break;
+                default: {
+                  console.log(`-- Unknown platform "${process.platform}"`);
+                }
               }
-
-              case "linux": {
-                destfile = path.join(__dirname, "prince.tgz");
-
-                fs.writeFileSync(destfile, data, { encoding: null });
-                mkdirp.sync(destdir);
-
-                extractTarball(destfile, destdir, 1).then(
-                  function () {
-                    fs.unlinkSync(destfile);
-                    console.log(
-                      "-- OK: local PrinceXML installation now available"
-                    );
-                  },
-                  function (error) {
-                    console.log(
-                      chalk.red("** ERROR: failed to extract: " + error)
-                    );
-                  }
-                );
-
-                break;
-              }
-              default: {
-                console.log(`-- Unknown platform "${process.platform}"`);
-              }
+            },
+            function (error) {
+              console.log(chalk.red("** ERROR: failed to download: " + error));
             }
-          },
-          function (error) {
-            console.log(chalk.red("** ERROR: failed to download: " + error));
-          }
-        );
+          );
       });
     }
   );

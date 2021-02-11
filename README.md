@@ -49,6 +49,18 @@ some distribution-specific system dependencies. For instance, under
 Debian 8.0 you first have to install the necessary system packages with
 `apt-get install nodejs nodejs-legacy npm libgif4 curl`.
 
+## Alpine
+Before using this module, be sure that you have installed all the following packages.
+
+```sh
+apk update &&
+apk upgrade && 
+apk --no-cache add libxml2 pixman tiff giflib libpng lcms2 libjpeg libcurl fontconfig freetype libgomp msttcorefonts-installer fontconfig 
+update-ms-fonts 
+fc-cache -f
+```
+
+
 Usage
 -----
 
